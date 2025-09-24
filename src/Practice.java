@@ -1,3 +1,4 @@
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -11,7 +12,12 @@ public class Practice {
      * @return the sum of the odd numbers in the array
      */
     public static int oddSum(int[] nums) {
-        return 0;
+        if (nums==null||nums.length==0) return 0;
+        int sum = 0;
+        for (int i: nums) {
+            if (i%2==1||i%2==-1) sum+= i;
+        }
+        return sum;
     }
 
     /**
@@ -26,7 +32,13 @@ public class Practice {
      * @throws NullPointerException if words is null
      */
     public static String shortestWord(Set<String> words) {
-        return null;
+        if (words==null) throw new NullPointerException();
+        if (words.size()==0) throw new IllegalArgumentException();
+        String shortest = "";
+        for (String word : words) {
+            if (word.length()<shortest.length()) shortest = word;
+        }
+        return shortest;
     }
 
     /**
@@ -39,7 +51,12 @@ public class Practice {
      * @throws NullPointerException if ages is null
      */
     public static Set<String> adults(Map<String, Integer> ages) {
-        return null;
+        if (ages==null) throw new NullPointerException();
+        Set<String> majors = new HashSet<>();
+        for (String name : ages.keySet()) {
+            if (ages.get(name)>=18) majors.add(name);
+        }
+        return majors;
     }
 
     /**
@@ -50,7 +67,13 @@ public class Practice {
      * @throws IllegalArgumentException if head is null
      */
     public static int biggestNumber(ListNode<Integer> head) {
-        return 0;
+        if (head==null) throw new IllegalArgumentException();
+        int biggest = Integer.MIN_VALUE;
+        while (head!=null) {
+            if (head.data>biggest) biggest = head.data;
+            head = head.next;
+        }
+        return biggest;
     }
 
     /**
@@ -67,6 +90,8 @@ public class Practice {
      * @return a frequency map of values in the list
      */
     public static <T> Map<T, Integer> frequencies(ListNode<T> head) {
+        if (head==null) throw new NullPointerException();
+        Map<T, Integer> frequency = new HashMap<T, Integer>();
         return null;
     }
 
@@ -80,7 +105,10 @@ public class Practice {
      * @return the number of levels in the tree
      */
     public static int levelCount(BinaryTreeNode<?> root) {
-        return 0;
+        if (root==null) return 0;
+        int left = levelCount(root.left);
+        int right = levelCount(root.right);
+        return Math.max(left,right)+1;
     }
 
 
