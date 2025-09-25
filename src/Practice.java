@@ -198,12 +198,22 @@ public class Practice {
      */
     public static boolean sumMatch(BinaryTreeNode<Integer> root, ListNode<Integer> head) {
         if (root==null&&head==null) return true;
+        if (root==null||head==null) return false;
+        Queue<BinaryTreeNode<Integer>> queue = new LinkedList<>();
+        int treesum = 0;
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            BinaryTreeNode<Integer> node = queue.poll();
+            if (node.left!=null) queue.offer(node.left);
+            if (node.right!=null) queue.offer(node.right);
+            treesum+=node.data;
+        }
         int listsum = 0;
         while(head!=null) {
             listsum+= head.data;
             head=head.next;
         }
-        return false;
+        return treesum==listsum;
     }
 
     /**
