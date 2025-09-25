@@ -1,5 +1,8 @@
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 
 public class Practice {
@@ -34,9 +37,16 @@ public class Practice {
     public static String shortestWord(Set<String> words) {
         if (words==null) throw new NullPointerException();
         if (words.size()==0) throw new IllegalArgumentException();
+        int shortestlength = Integer.MAX_VALUE;
         String shortest = "";
         for (String word : words) {
-            if (word.length()<shortest.length()) shortest = word;
+            if (word.length()<shortestlength) {
+                shortest = word;
+                shortestlength = word.length();
+            }
+            if (word.length()==shortestlength) {
+                if(word.compareTo(shortest)<0) shortest = word;
+            }
         }
         return shortest;
     }
@@ -90,9 +100,18 @@ public class Practice {
      * @return a frequency map of values in the list
      */
     public static <T> Map<T, Integer> frequencies(ListNode<T> head) {
-        if (head==null) throw new NullPointerException();
-        Map<T, Integer> frequency = new HashMap<T, Integer>();
-        return null;
+        if (head==null) return Map.of();
+        Map<T, Integer> frequency = new HashMap<>();
+        while(head!=null) {
+            if (frequency.containsKey(head.data)) {
+                frequency.put(head.data, frequency.get(head.data)+1);
+            }
+            else {
+                frequency.put(head.data, 1);
+            }
+            head=head.next;
+        }
+        return frequency;
     }
 
 
@@ -136,6 +155,33 @@ public class Practice {
      * @return the sum of the nodes at the given level
      */
     public static int sumAtLevel(BinaryTreeNode<Integer> root, int level) {
+        if (root==null) return 0;
+        Queue<BinaryTreeNode<Integer>> queue = new LinkedList<>();
+        queue.offer(root);
+        int currlevel = 1;
+        int levelsum = 0;
+        while (!queue.isEmpty()) {
+            int levelsize = queue.size();
+            if (currlevel == level) {
+                for (int i = 0; i < levelsize; i++) {
+                    BinaryTreeNode<Integer> node = queue.poll();
+                    levelsum += node.data;
+                }
+                return levelsum;
+            }
+            else {
+                for (int j = 0; j < levelsize; j++) {
+                    BinaryTreeNode<Integer> node = queue.poll();
+                    if (node.left!=null) {
+                        queue.offer(node.left);
+                    }
+                    if (node.right!=null) {
+                        queue.offer(node.right);
+                    }
+                }
+                currlevel++;
+            }
+        }
         return 0;
     }
 
@@ -151,6 +197,12 @@ public class Practice {
      * @return true if the sums are equal, false otherwise
      */
     public static boolean sumMatch(BinaryTreeNode<Integer> root, ListNode<Integer> head) {
+        if (root==null&&head==null) return true;
+        int listsum = 0;
+        while(head!=null) {
+            listsum+= head.data;
+            head=head.next;
+        }
         return false;
     }
 
